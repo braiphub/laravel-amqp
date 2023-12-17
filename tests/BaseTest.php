@@ -3,10 +3,11 @@
 namespace Braiphub\Amqp\Tests;
 
 use Braiphub\Amqp\AmqpFactory;
-use phpmock\Mock;
-use PHPUnit\Framework\TestCase;
-use phpmock\MockBuilder;
 use Mockery;
+use phpmock\Mock;
+use phpmock\MockBuilder;
+use phpmock\MockEnabledException;
+use PHPUnit\Framework\TestCase;
 
 class BaseTest extends TestCase
 {
@@ -14,9 +15,12 @@ class BaseTest extends TestCase
 
     protected array $properties;
 
+    /**
+     * @throws MockEnabledException
+     */
     public function setUp(): void
     {
-        $amqpConfig = include dirname(__FILE__) . '/../config/amqp.php';
+        $amqpConfig = include dirname(__FILE__) . '/../config/laravel-amqp.php';
         $this->properties = array_merge($amqpConfig['properties'][$amqpConfig['use']], [
             'host'          => 'localhost',
             'port'          =>  5672,
@@ -28,11 +32,11 @@ class BaseTest extends TestCase
 
         if (empty(self::$mocks)) {
             $builder = new MockBuilder();
-            $builder->setNamespace('ComLaude\\Amqp')
+            $builder->setNamespace('Braiphub\\Amqp')
                 ->setName('config')
                 ->setFunction(
                     function ($string) {
-                        if ($string === 'amqp.use') {
+                        if ($string === 'laravel-amqp.use') {
                             return '';
                         }
                         return $this->properties;

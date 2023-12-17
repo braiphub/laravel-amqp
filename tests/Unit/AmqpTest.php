@@ -1,6 +1,6 @@
 <?php
 
-namespace Braiphub\Amqp\Tests\Unit;
+namespace Unit;
 
 use Braiphub\Amqp\Amqp;
 use Braiphub\Amqp\Tests\BaseTest;
@@ -207,7 +207,7 @@ class AmqpTest extends BaseTest
         $message = 'message2';
         $mockedResponseMessage = Mockery::mock('PhpAmqpLib\Message\AMQPMessage[getBody]');
         $mockedResponseMessage->shouldReceive('getBody')->once()->andReturn($response);
-        $mockedFacade = Mockery::mock('ComLaude\Amqp\Amqp[request]');
+        $mockedFacade = Mockery::mock('Braiphub\Amqp\Amqp[request]');
         $mockedFacade->shouldReceive('request')->once()->with(
             $route,
             [$message],

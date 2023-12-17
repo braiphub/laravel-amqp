@@ -2,7 +2,8 @@
 
 namespace Braiphub\Amqp\Exceptions;
 
-class AmqpChannelException
-{
+use Exception;
 
+class AmqpChannelException extends Exception
+{
 }
